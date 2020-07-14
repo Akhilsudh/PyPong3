@@ -1,7 +1,8 @@
 import turtle
+from functools import partial
 
+# Functions
 def createGameObject(x, y, shape, width, length):
-    print("I am here")
     paddle = turtle.Turtle()
     paddle.speed(0)
     paddle.shape(shape)
@@ -10,6 +11,12 @@ def createGameObject(x, y, shape, width, length):
     paddle.penup()
     paddle.goto(x, y)
     return paddle
+
+def paddle_direction(paddle, direction):
+    y = paddle.ycor()
+    y = y + direction
+    paddle.sety(y)
+
 
 wn = turtle.Screen()
 wn.title("PyPong")
@@ -21,6 +28,13 @@ wn.tracer(0)
 paddle_a = createGameObject(-350, 0, "square", 5, 1)
 paddle_b = createGameObject(350, 0, "square", 5, 1)
 ball = createGameObject(0, 0, "circle", 1, 1)
+
+# Key Listener
+wn.listen()
+wn.onkeypress(partial(paddle_direction, paddle_a, 10), "w")
+wn.onkeypress(partial(paddle_direction, paddle_a, -10), "s")
+wn.onkeypress(partial(paddle_direction, paddle_b, 10), "Up")
+wn.onkeypress(partial(paddle_direction, paddle_b, -10), "Down")
 
 # Main Loop
 while True:
