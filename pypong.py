@@ -1,5 +1,4 @@
 import turtle
-import random
 from functools import partial
 
 ballFlag = [True, False]
@@ -57,24 +56,24 @@ def ballDirection(ball, flag):
 
 
 wn = turtle.Screen()
-wn.title("PyPong")
+wn.title("PyPong3")
 wn.bgcolor("black")
 wn.setup(width=800, height=800)
 wn.tracer(0)
 
 # Create Game Objects
-paddle_a = createGameObject(-350, 0, "square", 5, 1)
-paddle_b = createGameObject(350, 0, "square", 5, 1)
+leftPaddle = createGameObject(-350, 0, "square", 5, 1)
+rightPaddle = createGameObject(350, 0, "square", 5, 1)
 ball = createGameObject(0, 0, "circle", 1, 1)
 ball.dx = 0.1
 ball.dy = -0.1
 
 # Key Listener
 wn.listen()
-wn.onkeypress(partial(paddleDirection, paddle_a, 10), "w")
-wn.onkeypress(partial(paddleDirection, paddle_a, -10), "s")
-wn.onkeypress(partial(paddleDirection, paddle_b, 10), "Up")
-wn.onkeypress(partial(paddleDirection, paddle_b, -10), "Down")
+wn.onkeypress(partial(paddleDirection, leftPaddle, 10), "w")
+wn.onkeypress(partial(paddleDirection, leftPaddle, -10), "s")
+wn.onkeypress(partial(paddleDirection, rightPaddle, 10), "Up")
+wn.onkeypress(partial(paddleDirection, rightPaddle, -10), "Down")
 wn.onkeypress(partial(ballDirection, ball, ballFlag), "space")
 
 # Main Loop
@@ -83,4 +82,4 @@ while True:
 
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
-    ballColliderCheck(ball, paddle_a, paddle_b, ballFlag)
+    ballColliderCheck(ball, leftPaddle, rightPaddle, ballFlag)
