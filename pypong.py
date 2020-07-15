@@ -1,6 +1,8 @@
 import turtle
+import random
 from functools import partial
 
+ballFlag = [True, False]
 # Functions
 def createGameObject(x, y, shape, width, length):
     paddle = turtle.Turtle()
@@ -22,7 +24,7 @@ def paddleDirection(paddle, direction):
         y = y + direction
     paddle.sety(y)
 
-def ballColliderCheck(ball, paddle1, paddle2):
+def ballColliderCheck(ball, paddle1, paddle2, flag):
     if (ball.ycor() > 290):
         ball.sety(290)
         ball.dy = -1 * ball.dy
@@ -30,14 +32,29 @@ def ballColliderCheck(ball, paddle1, paddle2):
         ball.sety(-290)
         ball.dy = -1 * ball.dy
     if (ball.xcor() > 390 or ball.xcor() < -390):
+        flag[1] = not flag[1]
         ball.goto(0, 0)
-        ball.dx = -1 * ball.dx
+        ball.dx = 0
+        ball.dy = 0
     if ((ball.xcor() > 340 and ball.xcor() < 360) and (ball.ycor() < paddle2.ycor() + 40 and ball.ycor() > paddle2.ycor() - 40)):
         ball.setx(340)
         ball.dx = -1 * ball.dx
     if ((ball.xcor() < -340 and ball.xcor() > -360) and (ball.ycor() < paddle1.ycor() + 40 and ball.ycor() > paddle1.ycor() - 40)):
         ball.setx(-340)
         ball.dx = -1 * ball.dx
+
+def ballDirection(ball, flag):
+    if(flag[1]):
+        if(flag[0]):
+            ball.dx = -0.1
+            ball.dy = 0.1
+            flag[0] = False
+        else:
+            ball.dx = 0.1
+            ball.dy = -0.1
+            flag[0]  = True
+        flag[1] = False
+
 
 wn = turtle.Screen()
 wn.title("PyPong")
@@ -58,6 +75,7 @@ wn.onkeypress(partial(paddleDirection, paddle_a, 10), "w")
 wn.onkeypress(partial(paddleDirection, paddle_a, -10), "s")
 wn.onkeypress(partial(paddleDirection, paddle_b, 10), "Up")
 wn.onkeypress(partial(paddleDirection, paddle_b, -10), "Down")
+wn.onkeypress(partial(ballDirection, ball, ballFlag), "space")
 
 # Main Loop
 while True:
@@ -65,4 +83,4 @@ while True:
 
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
-    ballColliderCheck(ball, paddle_a, paddle_b)
+    ballColliderCheck(ball, paddle_a, paddle_b, ballFlag)
