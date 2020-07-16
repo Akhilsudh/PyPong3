@@ -1,7 +1,10 @@
 import turtle
+import simpleaudio as sa
 from functools import partial
 
+
 ballFlag = [True, False]
+
 # Functions
 def createGameObject(x, y, shape, width, length):
     paddle = turtle.Turtle()
@@ -25,35 +28,42 @@ def paddleDirection(paddle, direction):
 
 def ballColliderCheck(ball, paddle1, paddle2, flag):
     if (ball.ycor() > 290):
+        wave_obj.play()
         ball.sety(290)
         ball.dy = -1 * ball.dy
     if (ball.ycor() < -290):
+        wave_obj.play()
         ball.sety(-290)
         ball.dy = -1 * ball.dy
     if (ball.xcor() > 390 or ball.xcor() < -390):
         flag[1] = not flag[1]
+        paddle1.goto(-350, 0)
+        paddle2.goto(350, 0)
         ball.goto(0, 0)
         ball.dx = 0
         ball.dy = 0
     if ((ball.xcor() > 340 and ball.xcor() < 360) and (ball.ycor() < paddle2.ycor() + 40 and ball.ycor() > paddle2.ycor() - 40)):
+        wave_obj.play()
         ball.setx(340)
         ball.dx = -1 * ball.dx
     if ((ball.xcor() < -340 and ball.xcor() > -360) and (ball.ycor() < paddle1.ycor() + 40 and ball.ycor() > paddle1.ycor() - 40)):
+        wave_obj.play()
         ball.setx(-340)
         ball.dx = -1 * ball.dx
 
 def ballDirection(ball, flag):
     if(flag[1]):
         if(flag[0]):
-            ball.dx = -0.1
-            ball.dy = 0.1
+            ball.dx = -0.15
+            ball.dy = 0.15
             flag[0] = False
         else:
-            ball.dx = 0.1
-            ball.dy = -0.1
+            ball.dx = 0.15
+            ball.dy = -0.15
             flag[0]  = True
         flag[1] = False
 
+wave_obj = sa.WaveObject.from_wave_file('ball.wav')
 
 wn = turtle.Screen()
 wn.title("PyPong3")
@@ -65,8 +75,8 @@ wn.tracer(0)
 leftPaddle = createGameObject(-350, 0, "square", 5, 1)
 rightPaddle = createGameObject(350, 0, "square", 5, 1)
 ball = createGameObject(0, 0, "circle", 1, 1)
-ball.dx = 0.1
-ball.dy = -0.1
+ball.dx = 0.15
+ball.dy = -0.15
 
 # Key Listener
 wn.listen()
