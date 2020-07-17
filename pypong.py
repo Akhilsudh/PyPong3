@@ -18,10 +18,10 @@ def createGameObject(x, y, shape, width, length):
 
 def paddleDirection(paddle, direction):
     y = paddle.ycor()
-    if(y > 250):
-        y = 250
-    elif(y < -250):
-        y = -250
+    if(y > 240):
+        y = 240
+    elif(y < -240):
+        y = -240
     else:
         y = y + direction
     paddle.sety(y)
@@ -54,12 +54,12 @@ def ballColliderCheck(ball, paddle1, paddle2, flag):
 def ballDirection(ball, flag):
     if(flag[1]):
         if(flag[0]):
-            ball.dx = -0.15
-            ball.dy = 0.15
+            ball.dx = -0.2
+            ball.dy = 0.2
             flag[0] = False
         else:
-            ball.dx = 0.15
-            ball.dy = -0.15
+            ball.dx = 0.2
+            ball.dy = -0.2
             flag[0]  = True
         flag[1] = False
 
@@ -72,11 +72,15 @@ wn.setup(width=800, height=800)
 wn.tracer(0)
 
 # Create Game Objects
+middleLine = createGameObject(0, 0, "square", 30, 0.05)
+topLine = createGameObject(0, 300, "square", 0.05, 40)
+bottomLine = createGameObject(0, -300, "square", 0.05, 40)
+
 leftPaddle = createGameObject(-350, 0, "square", 5, 1)
 rightPaddle = createGameObject(350, 0, "square", 5, 1)
 ball = createGameObject(0, 0, "circle", 1, 1)
-ball.dx = 0.15
-ball.dy = -0.15
+ball.dx = 0.2
+ball.dy = -0.2
 
 # Key Listener
 wn.listen()
