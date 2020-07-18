@@ -4,6 +4,7 @@ from functools import partial
 
 
 ballFlag = [True, False]
+scoreValue = [0, 0]
 
 # Functions
 def createGameObject(x, y, shape, width, length):
@@ -26,7 +27,14 @@ def paddleDirection(paddle, direction):
         y = y + direction
     paddle.sety(y)
 
-def ballColliderCheck(ball, paddle1, paddle2, flag):
+def countScore(score, paddleNumber):
+    print("hello")
+    scoreValue[paddleNumber] = scoreValue[paddleNumber] + 1
+    score.clear()
+    score.write(str(scoreValue[1]), font=style, align='left')
+    score.write(str(scoreValue[0]), font=style, align='right')
+
+def ballColliderCheck(ball, paddle1, paddle2, score, flag):
     if (ball.ycor() > 290):
         wave_obj.play()
         ball.sety(290)
@@ -36,6 +44,10 @@ def ballColliderCheck(ball, paddle1, paddle2, flag):
         ball.sety(-290)
         ball.dy = -1 * ball.dy
     if (ball.xcor() > 390 or ball.xcor() < -390):
+        if(ball.xcor() > 390):
+            countScore(score, 0)
+        if(ball.xcor() < -390):
+            countScore(score, 1)
         flag[1] = not flag[1]
         paddle1.goto(-350, 0)
         paddle2.goto(350, 0)
@@ -76,6 +88,13 @@ middleLine = createGameObject(0, 0, "square", 30, 0.05)
 topLine = createGameObject(0, 300, "square", 0.05, 40)
 bottomLine = createGameObject(0, -300, "square", 0.05, 40)
 
+style = ('Courier', 30, 'bold')
+score = turtle.Turtle()
+score.color('white')
+score.write('0', font=style, align='left')
+score.write('0', font=style, align='right')
+score.hideturtle()
+
 leftPaddle = createGameObject(-350, 0, "square", 5, 1)
 rightPaddle = createGameObject(350, 0, "square", 5, 1)
 ball = createGameObject(0, 0, "circle", 1, 1)
@@ -96,4 +115,4 @@ while True:
 
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
-    ballColliderCheck(ball, leftPaddle, rightPaddle, ballFlag)
+    ballColliderCheck(ball, leftPaddle, rightPaddle, score, ballFlag)
