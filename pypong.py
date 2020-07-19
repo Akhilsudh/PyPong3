@@ -3,7 +3,7 @@ import simpleaudio as sa
 from functools import partial
 
 
-ballFlag = [True, False]
+ballFlag = [True, True]
 scoreValue = [0, 0]
 
 # Functions
@@ -18,16 +18,16 @@ def createGameObject(x, y, shape, width, length):
     return paddle
 
 def scoreDraw(score, value, x, y, align):
-    style = ('Courier', 30, 'bold')
+    style = ('Courier', 40, 'bold')
     score.goto(x, y)
     score.write(str(value), font=style, align=align)
 
 def paddleDirection(paddle, direction):
     y = paddle.ycor()
-    if(y > 240):
-        y = 240
-    elif(y < -240):
-        y = -240
+    if(y > 230):
+        y = 230
+    elif(y < -230):
+        y = -230
     else:
         y = y + direction
     paddle.sety(y)
@@ -36,8 +36,8 @@ def countScore(score, paddleNumber):
     print("hello")
     scoreValue[paddleNumber] = scoreValue[paddleNumber] + 1
     score.clear()
-    scoreDraw(score, scoreValue[0], -50, 300, 'right')
-    scoreDraw(score, scoreValue[1], 50, 300, 'left')
+    scoreDraw(score, scoreValue[0], -200, 300, 'center')
+    scoreDraw(score, scoreValue[1], 200, 300, 'center')
 
 def ballColliderCheck(ball, paddle1, paddle2, score, flag):
     if (ball.ycor() > 290):
@@ -71,12 +71,12 @@ def ballColliderCheck(ball, paddle1, paddle2, score, flag):
 def ballDirection(ball, flag):
     if(flag[1]):
         if(flag[0]):
-            ball.dx = -0.2
-            ball.dy = 0.2
+            ball.dx = 0.4
+            ball.dy = -0.4
             flag[0] = False
         else:
-            ball.dx = 0.2
-            ball.dy = -0.2
+            ball.dx = -0.4
+            ball.dy = 0.4
             flag[0]  = True
         flag[1] = False
 
@@ -93,25 +93,34 @@ middleLine = createGameObject(0, 0, "square", 30, 0.05)
 topLine = createGameObject(0, 300, "square", 0.05, 40)
 bottomLine = createGameObject(0, -300, "square", 0.05, 40)
 
+playerName = turtle.Turtle()
+playerName.penup()
+playerName.color('white')
+playerName.goto(-200, -370)
+playerName.write('PLAYER A', font=('Courier', 20, 'bold'), align='center')
+playerName.goto(200, -370)
+playerName.write('PLAYER B', font=('Courier', 20, 'bold'), align='center')
+playerName.hideturtle()
+
 score = turtle.Turtle()
 score.penup()
 score.color('white')
-scoreDraw(score, 0, -50, 300, 'right')
-scoreDraw(score, 0, 50, 300, 'left')
+scoreDraw(score, 0, -200, 300, 'center')
+scoreDraw(score, 0, 200, 300, 'center')
 score.hideturtle()
 
 leftPaddle = createGameObject(-350, 0, "square", 5, 1)
 rightPaddle = createGameObject(350, 0, "square", 5, 1)
 ball = createGameObject(0, 0, "circle", 1, 1)
-ball.dx = 0.2
-ball.dy = -0.2
+ball.dx = 0
+ball.dy = 0
 
 # Key Listener
 wn.listen()
-wn.onkeypress(partial(paddleDirection, leftPaddle, 10), "w")
-wn.onkeypress(partial(paddleDirection, leftPaddle, -10), "s")
-wn.onkeypress(partial(paddleDirection, rightPaddle, 10), "Up")
-wn.onkeypress(partial(paddleDirection, rightPaddle, -10), "Down")
+wn.onkeypress(partial(paddleDirection, leftPaddle, 20), "w")
+wn.onkeypress(partial(paddleDirection, leftPaddle, -20), "s")
+wn.onkeypress(partial(paddleDirection, rightPaddle, 20), "Up")
+wn.onkeypress(partial(paddleDirection, rightPaddle, -20), "Down")
 wn.onkeypress(partial(ballDirection, ball, ballFlag), "space")
 
 # Main Loop
