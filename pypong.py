@@ -33,7 +33,6 @@ def paddleDirection(paddle, direction):
     paddle.sety(y)
 
 def countScore(score, paddleNumber):
-    print("hello")
     scoreValue[paddleNumber] = scoreValue[paddleNumber] + 1
     score.clear()
     scoreDraw(score, scoreValue[0], -200, 300, 'center')
