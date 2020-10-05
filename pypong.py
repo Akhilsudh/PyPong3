@@ -11,7 +11,7 @@ def createGameObject(x, y, shape, width, length):
     paddle = turtle.Turtle()
     paddle.speed(0)
     paddle.shape(shape)
-    paddle.color("white")
+    paddle.color('white')
     paddle.shapesize(stretch_wid=width, stretch_len=length)
     paddle.penup()
     paddle.goto(x, y)
@@ -82,15 +82,15 @@ def ballDirection(ball, flag):
 wave_obj = sa.WaveObject.from_wave_file('ball.wav')
 
 wn = turtle.Screen()
-wn.title("PyPong3")
-wn.bgcolor("black")
+wn.title('PyPong3')
+wn.bgcolor('black')
 wn.setup(width=800, height=800)
 wn.tracer(0)
 
 # Create Game Objects
-middleLine = createGameObject(0, 0, "square", 30, 0.05)
-topLine = createGameObject(0, 300, "square", 0.05, 40)
-bottomLine = createGameObject(0, -300, "square", 0.05, 40)
+middleLine = createGameObject(0, 0, 'square', 30, 0.05)
+topLine = createGameObject(0, 300, 'square', 0.05, 40)
+bottomLine = createGameObject(0, -300, 'square', 0.05, 40)
 
 playerName = turtle.Turtle()
 playerName.penup()
@@ -108,19 +108,19 @@ scoreDraw(score, 0, -200, 300, 'center')
 scoreDraw(score, 0, 200, 300, 'center')
 score.hideturtle()
 
-leftPaddle = createGameObject(-350, 0, "square", 5, 1)
-rightPaddle = createGameObject(350, 0, "square", 5, 1)
-ball = createGameObject(0, 0, "circle", 1, 1)
+leftPaddle = createGameObject(-350, 0, 'square', 5, 1)
+rightPaddle = createGameObject(350, 0, 'square', 5, 1)
+ball = createGameObject(0, 0, 'circle', 1, 1)
 ball.dx = 0
 ball.dy = 0
 
 # Key Listener
 wn.listen()
-wn.onkeypress(partial(paddleDirection, leftPaddle, 20), "w")
-wn.onkeypress(partial(paddleDirection, leftPaddle, -20), "s")
-wn.onkeypress(partial(paddleDirection, rightPaddle, 20), "Up")
-wn.onkeypress(partial(paddleDirection, rightPaddle, -20), "Down")
-wn.onkeypress(partial(ballDirection, ball, ballFlag), "space")
+wn.onkeypress(partial(paddleDirection, leftPaddle, 20), 'w')
+wn.onkeypress(partial(paddleDirection, leftPaddle, -20), 's')
+wn.onkeypress(partial(paddleDirection, rightPaddle, 20), 'Up')
+wn.onkeypress(partial(paddleDirection, rightPaddle, -20), 'Down')
+wn.onkeypress(partial(ballDirection, ball, ballFlag), 'space')
 
 # Main Loop
 while True:
